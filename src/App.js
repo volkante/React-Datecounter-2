@@ -42,7 +42,7 @@ function Counter() {
         </button>
         <p>Count: {count}</p>
         <button
-          onClick={(c) => {
+          onClick={() => {
             setCount((c) => c + step);
           }}
         >
