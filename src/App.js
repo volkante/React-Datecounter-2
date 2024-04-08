@@ -10,53 +10,61 @@ export default function App() {
 }
 
 function Counter() {
-  const [step, setStep] = useState(0);
   const [count, setCount] = useState(0);
+  const [step, setStep] = useState(1);
 
   const date = new Date();
   date.setDate(date.getDate() + count);
 
-  function handleIncreaseStep() {
-    setStep((s) => s + 1);
-  }
-
-  function handleDecreaseStep() {
-    setStep((s) => s - 1);
-  }
-
   return (
-    <div className="container">
-      <h1>Date Counter</h1>
-      <div className="step-div">
-        <button onClick={handleDecreaseStep}>-</button>
-        <p>Step: {step}</p>
-        <button onClick={handleIncreaseStep}>+</button>
+    <div>
+      <div>
+        {/*  schmedtmann bu slider yapma html'ini kendi verdi başta input max'a kadar */}
+
+        <input
+          type="range"
+          min="0"
+          max="10"
+          value={step}
+          onChange={(e) => setStep(Number(e.target.value))}
+        />
+
+        <span>Step: {step}</span>
       </div>
-      <div className="count-div">
-        <button
-          onClick={() => {
-            setCount((c) => c - step);
-          }}
-        >
-          -
-        </button>
-        <p>Count: {count}</p>
-        <button
-          onClick={() => {
-            setCount((c) => c + step);
-          }}
-        >
-          +
-        </button>
+
+      <div className="counter">
+        <button onClick={() => setCount((c) => c - step)}>-</button>
+        <form>
+          <input
+            type="text"
+            value={count}
+            onChange={(e) => setCount(Number(e.target.value))}
+          />
+        </form>
+
+        <button onClick={() => setCount((c) => c + step)}>+</button>
       </div>
+
       <p>
         <span>
-          {count === 0 && `Today is `}
-          {count > 0 && `${count} days from today is `}
-          {count < 0 && `${count * -1} days ago was `}
+          {count === 0
+            ? "Today is "
+            : count > 0
+            ? `${count} days from today is `
+            : `${Math.abs(count)} days ago was `}
         </span>
-        <span className="date-span">{date.toDateString()}</span>
+        <span>{date.toDateString()}</span>
       </p>
+      {step === 1 && count === 0 ? null : (
+        <button
+          onClick={() => {
+            setCount(0);
+            setStep(1);
+          }}
+        >
+          Reset
+        </button>
+      )}
     </div>
   );
 }
